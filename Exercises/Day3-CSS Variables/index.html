@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+  <style>
+      /*
+      CSS variables are declared on some sort of element
+      Here we declaring it on "root" which is the highest element you can get
+
+      Here is where we're gonna set the default values for those variables  
+    */  
+
+    :root {
+      --base: #ffc600; /* base variable set to yellow color */
+      --spacing: 10px; /* spacing variable defaulted to 10px */
+      --blur: 10px; /* blur variable defaulted to 10px */
+    }
+
+      /*
+     Now we've defined these variables we can go ahead and use them 
+    */ 
+
+    /* HOW TO USE A VARIABLE IN CSS: var(--theVariableName); */
+    img {
+      padding: var(--spacing);
+      background: var(--base); 
+      filter: blur(var(--blur)); 
+    }
+
+    /* JS Highlight */
+    /* Anything with the class of hl(highlight) is gonna have the color of the variable base: */
+    .hl {
+      color: var(--base);
+    }
+
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+
+    body {
+      text-align: center;
+      background: #193549;
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width:100px;
+    }
+  </style>
+
+  <script>
+    // Writing JS to update the variables
+
+    // Select all 3 of the inputs on the page 
+    const inputs = document.querySelectorAll('.controls input');
+
+    // Creating handleUpdate function
+    function handleUpdate() {
+      //console.log(this.value) 
+      // This logs the changes being made to each input (spacing, blur, color)
+
+      // Need to select the values of the inputs
+      // What is the suffix of the value we're working with? 
+      
+      // console.log(this.dataset)
+      // dataSet is an object that will contain all the data attributes from that specific element
+        // Takes everything that has a data- on that element, and puts it into an object 
+
+      const suffix = this.dataset.sizing || ''; // px (for spacing and blur) and nothing (for color)
+      //console.log(suffix);
+
+
+       // Update the actual variable 
+       // Need to select the actual variable
+        // Going to select the entire document (our root) and set a property of base, spacing, or blur
+        console.log(this.name);
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+
+
+    }
+
+    // Listen for a change event on each of the inputs
+      // Looping over each input
+      // Listening for the change event
+        // And when that is called, we're gonna call handleUpdate
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    // Also listeing for mouse moving to a change is triggered while the user is sliding the input 
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
+
+
+
+
+
+
+  </script>
+
+</body>
+</html>

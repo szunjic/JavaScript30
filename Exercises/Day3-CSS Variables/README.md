@@ -17,4 +17,56 @@ The purpose of this exercise is to gain experience using _CSS3 variables_. These
   to target the _entire document_ and update the values of the CSS variables
   from there.
 
+**Steps:**
+
+- CSS:
+
+  1. Declare a new style for the `:root` element and declare three variables inside
+    the style definition for `:root` with the same names as the `input` _HTML elements_.
+    _CSS3 variables_ are declared in the following syntax format:
+      ```CSS
+      /* Two hyphens (--) followed by the variable name */
+
+      :root {
+        --base: #ffc600;
+        --blur: 10px;
+        --padding: 10px;
+      }
+      ```
+
+  1. Declare a new style for the `img` element and set the `background`, `filter`, and
+    `padding` properties to the variables we defined at the root element:
+      ```CSS
+      /* 'var(--variableName)' to use previously defined CSS properties */
+
+      img {
+        background: var(--base);
+        filter: blur(var(--blur));
+        padding: var(--padding);
+      }
+      ```
+
+  1. Declare a new style for the `.hl` class and set the color to the `base` variable.
+
+- JavaScript:
+
+  1. Declare & define a variable as a reference to all of the inputs on the page.
+
+  1. Iterate through the _HTML Node Elements_ that the variable is referencing and
+    attach _event listeners_ to each one that will call on an _event handler_ whenever
+    the input value has been changed (the `change` event).
+
+  1. Repeat step 2, listening for mouse movements on the inputs instead of value
+    changes (the `mousemove` event).
+
+  1. Define a function that will be used as the _event handler_. It will update
+    the value of the _CSS3 variable_ **at the root document level** corresponding with
+    the `name` property of the `input` element which called this function.
+        - Minor 'gotcha': Properties like `padding` and `blur` won't update because
+      the value from the input does not include the type of measurement we are using
+      ('px', 'em', etc.). The `input` _HTML elements_ also have a `data-sizing` property if
+      they require a suffix. We can use this to attach the correct suffix to the
+      value if necessary.
+
+
 
