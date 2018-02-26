@@ -16,4 +16,5 @@ exercises.
 ## Table Of Contents
 1.  [JS Drum Kit](/Exercises/Day1-JS%20Drum%20Kit)
 2.  [JS + CSS Clock](/Exercises/Day2-JS%20%2B%20CSS%20Clock)
+3.  [CSS Variables](/Exercises/Day3-CSS%20Variables)
 
