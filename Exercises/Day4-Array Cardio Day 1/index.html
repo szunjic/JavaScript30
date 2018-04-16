@@ -32,16 +32,118 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+      // How filter works: 
+        // You pass it a function
+        // And that function is going to loop over every single item in the array (in this case, inventors array)
+        // And its going to give us the inventor (which we pass it)
+
+      // Get people who were born in the 1500's, and filter over it 
+      const fifteen = inventors.filter(function(inventor) {
+        // We take the inventors array, we loop over it, 
+        // and for each inventor we can decide whether we wanna keep it or not (w this if/else statement)
+        if (inventor.year >= 1500 && inventor.year < 1600) {
+          return true; 
+          // By returning true, that means we keep it 
+        }
+        // No need for and 'else' to return 'false'
+      });
+
+      console.log(fifteen);
+      console.table(fifteen);
+
+    // THIS SOLUTION CAN BE GREATLY REDUCED/SIMPLIFIED:
+      // Use an arrow function, and bc its just returning true or false, do everything in-line:
+      const fifteen2 = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year < 1600))
+      console.log(fifteen2);
+
+
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+
+      // How map works:
+        // Map takes in an array 
+        // Does something with that array 
+        // Returns a NEW array, but of the same length
+          // Map will always return the same amount of items as you give it 
+
+      // From the inventor we passed it, we are going to return the first and last name
+      // To fix the spacing problem: concatinate a space: ' '
+      const fullNames = inventors.map(inventor => inventor.first + ' ' + inventor.last)
+      console.log(fullNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+      // How sort works:
+        // You get 2 items 
+        // You're asked to sort just those 2 items 
+        // Is person A older than person B?
+          // And if so you put the older person on top
+          // And then way that we do that is by returning 1 and -1 
+          // And thats going to bubble these items up and down in the array
+
+      // This function in sort is going to give us the first person and the second person (a & b)
+      const ordered = inventors.sort(function(a, b) {
+        if (a.year > b.year) {
+          return 1;
+        } else {
+          return -1; // And that 1/-1 is just gonna move these items up and down in the array 
+        }
+      });
+      console.table(ordered);
+
+      // THIS SOLUTION CAN BE GREATLY REDUCED/SIMPLIFIED:
+      // By using in-line arrow functions and 'turnaray?' function, which is a shorthand if statement
+      const ordered2 = inventors.sort((a, b) => a.year > b.year ? 1 : -1) 
+      // If a is greater than b, return 1, otherwise, return -1
+      console.table(ordered2);
+
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
 
+      // How a reduce works:
+        // Whereas sort and map take items in and sort them or turn them into something else or filter then down
+        // A reduce allows you to build sometihng on every single one 
+        // Just a much cleaner way of altering a variable with a for loop?
+
+        // Remember, all these functions (reduce, sort, filter) they just loop over every single one
+
+        // Reduce will give you sorta like your running total, or what you've returned from this function last time (calling that total) and the inventor 
+      const totalYears = inventors.reduce((total, inventor) => {
+        // Gonna return the total (what the total was last time around) 
+        // and then we're gonna return the total number of years that inventor had lived
+        return total + (inventor.passed - inventor.year);
+      }, 0); // ** MUST add this 0 here because before 'total' was undefiend 
+      console.log(totalYears);
+
+
     // 5. Sort the inventors by years lived
+
+      const oldest = inventors.sort(function(a, b) {
+        // Before returning the 1 and -1,
+        // we're gonna create some variables to use in our if statement 
+        const lastGuy = a.passed - a.year; 
+        const nextGuy = b.passed - b.year;
+
+        if (lastGuy > nextGuy) {
+          return -1 
+        } else {
+          return 1
+        }
+      }); 
+      console.table(oldest);
+
+      // THIS SOLUTION CAN BE GREATLY REDUCED/SIMPLIFIED:
+      // By using the short hand for if/else statements
+      const oldest2 = inventors.sort(function(a, b) {
+        const lastGuy = a.passed - a.year; 
+        const nextGuy = b.passed - b.year;
+        return lastGuy > nextGuy ? -1 : 1;
+      }); 
+      console.table(oldest2);
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
