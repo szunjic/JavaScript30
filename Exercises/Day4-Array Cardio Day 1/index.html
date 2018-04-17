@@ -148,6 +148,61 @@
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+      // First need to get the DOM elements out of the page
+      // Second we filter that list of names for only ones that include "de"
+
+      // Getting the DOM elements out of the page 
+        // In the console..
+          // document.querySelector but we don't know what to select
+        // So we need to open Dev tools, Inspect whatever contains all of the data
+          // <div class="mw-category">
+        // In the console ..
+          // const category = document.querySelector('.mw-category');
+          // 'category' and <div class="mw-category"> should show up 
+
+      const category = document.querySelector('.mw-category');
+      // Now we wanna find the links within it
+      const links = [...category.querySelectorAll('a')];
+      // **Remember: You can call querySelector on any exisiting DOM element, it doesnt always have to be document; It can look inside of an exisitng element 
+      // **So we're using querySelector here to look INSIDE of category for links ('a')
+      // **Using ES6 SPREAD [...] to spread every single item into the array 
+
+      // In the console..
+        // const links = category.querySelectorAll('a')
+        // 'links' and we get a list of all the links on the page 
+
+      // First we convert that list of links to a list of names 
+        // Take in a list of links, and kick out a list of names
+        // Map over each one, pass it a link, and from that link just return link.textContent
+          // And that will give us just the text inside that rather than the entire link
+      const de = links
+                  .map(link => link.textContent);
+                  .filter(streetName => streetName.inclides('de'));
+                // **If we type this in the console, we get an error
+                  // Bc the list of links we got back is a NodeList (const links)
+                  // So we need to go back (to const links) and make it an array
+                  // We convert it into an array by inserting an ES6 spread [...]
+                    // SPREADS just spread every single item into the array (see line 162)
+                    // A Spread will take everything outside of an item (in this case the NodeList) and puts it into an array              
+               // Go back into the console.. (first refresh and redefine variables)
+                // const de = links.map(link => link.textContent);
+                // 'de' and we get huge array of every single one 
+      // So now we're just gonna immeditely filter that array for only those that include 'de'
+      // Only return if the streetName includes 'de'
+              .filter(streetName => streetName.inclides('de'));
+
+      // Go back into the console.. (first refresh and redefine variables)
+        // Now we have a subset of that initial array only containing those with 'de'
+
+      // This is what the **REAL SOLUTION** should look like (without all my comments):
+
+      // const category = document.querySelector('.mw-category');
+      // const links = Array.from(category.querySelectorAll('a'));
+      // const de = links
+      //             .map(link => link.textContent)
+      //             .filter(streetName => streetName.includes('de'));
+
+
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
