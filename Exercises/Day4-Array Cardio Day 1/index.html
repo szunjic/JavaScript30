@@ -145,6 +145,7 @@
       console.table(oldest2);
 
 
+// *** Had to comment out solutions for this #6 exercise because #7 would show errors
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
@@ -160,9 +161,9 @@
           // const category = document.querySelector('.mw-category');
           // 'category' and <div class="mw-category"> should show up 
 
-      const category = document.querySelector('.mw-category');
+//      const category = document.querySelector('.mw-category');
       // Now we wanna find the links within it
-      const links = [...category.querySelectorAll('a')];
+//      const links = [...category.querySelectorAll('a')];
       // **Remember: You can call querySelector on any exisiting DOM element, it doesnt always have to be document; It can look inside of an exisitng element 
       // **So we're using querySelector here to look INSIDE of category for links ('a')
       // **Using ES6 SPREAD [...] to spread every single item into the array 
@@ -175,9 +176,9 @@
         // Take in a list of links, and kick out a list of names
         // Map over each one, pass it a link, and from that link just return link.textContent
           // And that will give us just the text inside that rather than the entire link
-      const de = links
-                  .map(link => link.textContent);
-                  .filter(streetName => streetName.inclides('de'));
+//      const de = links
+//                  .map(link => link.textContent);
+//                  .filter(streetName => streetName.inclides('de'));
                 // **If we type this in the console, we get an error
                   // Bc the list of links we got back is a NodeList (const links)
                   // So we need to go back (to const links) and make it an array
@@ -188,8 +189,8 @@
                 // const de = links.map(link => link.textContent);
                 // 'de' and we get huge array of every single one 
       // So now we're just gonna immeditely filter that array for only those that include 'de'
+//              .filter(streetName => streetName.inclides('de'));
       // Only return if the streetName includes 'de'
-              .filter(streetName => streetName.inclides('de'));
 
       // Go back into the console.. (first refresh and redefine variables)
         // Now we have a subset of that initial array only containing those with 'de'
@@ -207,9 +208,65 @@
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+      // No longer using the 'inventors' array
+      // Now working with the 'people' array
+
+      // Sort over people with a function, and we're going to get the lastOne and nextOne
+        // Don't care about returning anything just yet
+        // Just gonna console.log the 'lastOne' just to see what we're working with (must comment out the solution to #6 to remove the inital error we get)
+      const alpha = people.sort(function(lastOne, nextOne) {
+        // console.log(lastOne)
+        // What we really want is to convert this to a first name and a last name, so..
+        // We're gonna split it on is a comma and a space (, )
+        // const parts = lastOne.split(', ')
+        // console.log(parts);
+        // Now we get an array we're the first thing is the last name and the second thing is the first name
+          // This is a little backwards
+          // So we can do is DESTRUCTURE that, meaning that:
+          // Rather than return an array with const parts, we can put those into their own variables right away, like this:
+        const [aLast, aFirst] = lastOne.split(', ');
+        console.log(aLast, aFirst);
+        // Now we have some proper variables to work with 
+        // Now we do it with the nextOne
+        const [bLast, bFirst] = nextOne.split(', ');
+        // Now we have the last person and the next person
+        // Now what we really care about in this case is the last name:
+        // if aLast is > bLast return -1 otherwise return 1
+        return aLast > bLast ? 1 : -1;
+      });
+      console.log(alpha); // Now its sorted by last name (Beck is the first one, Blake is the last one)
+      // ** Note: 
+
+
+
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    // ** Reduce is one of the most flexible methods in an array, and this is just another way that we can use it
+
+    // Passing our reduce a funtion with an object and item (obj, item)
+    const transportation = data.reduce(function(obj, item) {
+     // Checking for keys in obj
+      // If there is no obj[item], then obj[item] = 0
+      // This will set the inital one to 0.. 
+      if(!obj[item]) {
+        obj[item] = 0
+      }
+      //..and then we can increment it and return that object
+      obj[item]++;
+      // console.log(item);
+      return obj; // We get every single item when we loop over it
+       
+
+    }, {}) // **We need to start with a blank object
+
+    console.log(transportation);
+
+    //*** Review of what we did with the reduce method here:
+      // We start with a blank object
+      // And then everytime we loop over one, we first check if theres even a 0 there to work with at all(line 252)
+        // If not we need to make an entry for that (line 253)
+        // And then we can go ahead and increment it (line 256)
 
   </script>
 </body>
