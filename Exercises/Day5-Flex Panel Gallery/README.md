@@ -15,5 +15,4 @@ Most of this challenge focuses on working with _CSS3 flexible boxes_, or flexbox
 If you're unfamiliar with flexible boxes, here's another free course provided by Wes Bos:
 [flexbox.io](http://flexbox.io)
 
-**SIDENOTE:** I broke up the CSS for this challenge into a separate file because that
-made it easier to focus on the pieces that I was working with. 
+

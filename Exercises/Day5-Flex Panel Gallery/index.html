@@ -24,6 +24,8 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      /* Get our panels to display side by side: */
+      display: flex;
     }
 
     .panel {
@@ -41,8 +43,20 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
-    }
+      /* Need to go to each of the individual panels and tell them to split the extra blank space amoungst yourselves, children: */
+      flex: 1; /* This 1 means that each of them are going to evenly distribute that space*/
+      /* We want our 3 items to go up and down: */
+      justify-content: center;  /*Centered left to right*/
+      /* WE NEED TO MAKE THIS PANEL DISPLAY FLEX */
+        /* HERE is a really good example of when you will NEST FLEX BOX: */
+      /* What is the flex container? class=panels */
+      /* What is the flex item? class=panel */
+      /* BUT we're also going to make panel a flex container, which we do by making it display flex: */
+      display: flex;
+      /* By doing that, we stacked them left to right, bc thats the default of flex box */
+      flex-direction: column; /*this will vertically center them in the middle and each item takes up 1/3*/    
 
+    }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
     .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
@@ -50,11 +64,34 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
+
+    /* Flex Items (children) */
     .panel > * {
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      /*border: 1px solid red;  Just to help us see visually whats going on*/
+      flex: 1 0 auto; /*Break them up into 5 columns and 3 rows*/
+      display:flex; /*Doesn't do too much except display text on the left*/
+      /* Now to get everything perfectly centered: */
+      justify-content: center;
+      align-items: center;
+      /* This is just a lot of flex box nested and nested and nested */
+        /* Which allows us to get this really cool layout */
     }
+
+    /* Now we wanna HIDE the top text up and bottom text down */
+      /* Gonna use translateY for that */  
+      /* What we're trying to accomplish here is when you take off this translate Y, it's going to animate itself in and out, this works  when the panel has the class of open-active*/   
+    .panel > *:first-child { transform: translateY(-100%); }
+    /* So each of the first children are gonna be -100% -- which puts them off screen */
+    .panel.open-active > *:first-child { transform: translateY(0); }
+    .panel > *:last-child { transform: translateY(100%); }
+    /* Then the last child is 100% -- puts them off screen */
+    .panel.open-active > *:last-child { transform: translateY(0); }
+
+  
+  /* When these panels also have a class of open, we wanna give it a flex of 5 -- which means when it has this class its gonna take 5x the amount of the extra room as the rest of them*/
 
     .panel p {
       text-transform: uppercase;
@@ -67,6 +104,7 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size:40px;
     }
 
@@ -101,7 +139,35 @@
     </div>
   </div>
 
+
+<!-- Using JavaScript to do that adding and removing of classes  -->
   <script>
+    // Grab all the panels
+    const panels = document.querySelectorAll('.panel'); 
+    // Will give us a NodeList of all the panels we have
+
+    // Function thats going to toggle that class of 'open'
+    function toggleOpen() {
+      console.log('Hello');
+      this.classList.toggle('open');
+    };
+
+    function toggleActive(e) {
+      console.log(e.propertyName); // Tells us what transitions
+      // All we care about is the felx grow here, so:
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    // Listen for a click on each of the panels
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    // ** So here, we're taking each of the panels,
+    // Loop over each one of them,
+    // Listen for a click on each one of them,
+    // And then run the toggleOpen function --notice its not toggleOpen(), bc that would run it on page load. Here, we're just referencing to it to run 'on click'
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+
 
   </script>
 
