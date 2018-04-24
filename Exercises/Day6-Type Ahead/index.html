@@ -17,6 +17,101 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+// 1) First thing we need to do, is fetch the data, which is a huge array
+  // And then once that data is back, 
+  // Whenever someone types into this specific box, we're going to filter that array down to a subset, of all of the ones that either the city name or state name will match 
+
+  // Need an empty array to put our cities into 
+  const cities = []; 
+
+  // Need to go out and fetch our data
+    // ** We're gonna be using a new API in the browser called 'Fetch'
+
+  // Fetching the endpoint 
+    // Instead of using a callback function and then console.logging the data,
+    // **Fetch doesn't return the data, it will return a PROMISE -- which is sorta like a 'something will eventually come back with this fetch'
+    // **The way you work with a promise, is you call .then 
+      // And it's going to return a 'blob' of data 
+//  fetch(endpoint).then(blob => console.log(blob));
+    // The data the comes back from out Fetch, it doesnt know what kinda data it is just yet (img, html, etc.), while we explicilty know that its JSON
+      // ** But doing JSON.parse(blob) won't work
+      // ** The blob must be converted from the raw data that it is in, to JSON
+        // If you open the console and open the Response (blob), you will see there is a method on there called JSON
+        // So we call that method on blob (blob =>blob.json())
+          // Which is going to return another promise: (blob=>blob.json()).then()
+          // And that is going to give you the raw data, which we can console.log(data):
+  // fetch(endpoint)
+  //   .then(blob => blob.json())
+  //   .then(data => console.log(data));
+
+  // Now we get a massive array of all the data 
+
+  // How do we get this data into cities? 
+    // The push method here just pushes the argument as its own item into the array 
+    // ** We can change this array into individual arguments, is by spreading into it (ES6 spread)
+      // Simply spread into a function (this push method)
+      // Now we get a proper array of the cities 
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => cities.push(...data));
+
+// 2) Second thing we need to do is, when someone types into the box, we need to run a function that's going to take this massive array and filter it down into a subset, where then we can listen for it 
+
+  // Creating findMatches function that takes in a word to match, and the cities array (bc we wanna pass in the data into this function that its going to filter)
+  function findMatches(wordToMatch, cities) {
+    // Return cities array, and call filter on it, to chizle it down into a subset 
+    return cities.filter(place => {
+      // Here we need to figure out if the city or state matches what was searched 
+      // How do you put a variable into a regular expression?
+        // Need to actually create a regular epxression outside of it:
+      const regex = new RegExp(wordToMatch, 'gi') // g = global(looks through entire string) i = insensitive(going to match lower and upper case regardless of what you're searching)
+      return place.city.match(regex) || place.state.match(regex) // Calling .match with regex is going to return the place.city OR place.state 
+      
+      // *** And that will check if the city of the state has either one, the whole thing is gonna be true, and the filter is gonna be much smaller
+
+  })
+}
+
+// Creating our display function
+    // Which is called whenever someone changes a value in the input box
+  function displayMatches() {
+    // console.log(this.value)
+    // Use the findMatches function and pass it this.value and cities array 
+    const matchArray = findMatches(this.value, cities)
+   // console.log(matchArray);
+    // Good, so we got the data, now on to displaying it 
+    // Loop over each one
+    const html = matchArray.map(place => {
+      // and from each of those, return:
+      return `
+        <li>
+         <span class="name">${place.city}, ${place.state}</span>
+         <span class="population">${place.population}</span>
+        </li>
+      `;
+    }).join(''); // This map returns an array, and we really want a string
+    // After mapping over this array, we can simply call suggestions (the query selector we did below)
+    suggestions.innerHTML = html;
+  }
+
+  // Grabbing the query selectors
+  const searchInput = document.querySelector('.search');
+  const suggestions = document.querySelector('.suggestions');
+
+  // Listening for the 'change' event
+    // And when the input changes, we run displayMatches()
+  searchInput.addEventListener('change', displayMatches);
+  searchInput.addEventListener('keyup', displayMatches);
+
+
+
+
+
+
+
+
+
+
 </script>
   </body>
 </html>
