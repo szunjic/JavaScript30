@@ -72,6 +72,13 @@ const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb
   })
 }
 
+// Function that will put in commas for us (can easily find on StackOverflow)
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+// Now we can go down to our population html and wrap this function around it
+
+
 // Creating our display function
     // Which is called whenever someone changes a value in the input box
   function displayMatches() {
@@ -82,11 +89,25 @@ const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb
     // Good, so we got the data, now on to displaying it 
     // Loop over each one
     const html = matchArray.map(place => {
-      // and from each of those, return:
+      // We still wanna format the population #s and highlight the letter search:
+      // Before we return, we wanna create a regex, match the city name,
+      // and use that regex to replace the word that it matches with a span class of hl
+        // this.value = whatever the person searched for 
+        // gi = we wanna search for that globally (match city name or state name);
+      const regex = new RegExp(this.value, 'gi') 
+      // Create a cityName variable, where we're gonna take the place.city and REPLACE the regex(which is whatever it matches) WITH just a span witha class of highlight
+      const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+      // ** So its going to find whatever it matched in the regex and replace it with a span with a class of highlight and the value the person had searched for 
+
+      // Now doing the same thing for the state name
+      const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+
+      // and from each of those we looped through, return:
       return `
         <li>
-         <span class="name">${place.city}, ${place.state}</span>
-         <span class="population">${place.population}</span>
+         <span class="name">${cityName}, ${stateName}</span> 
+         <span class="population">${numberWithCommas(place.population)}</span>
         </li>
       `;
     }).join(''); // This map returns an array, and we really want a string
