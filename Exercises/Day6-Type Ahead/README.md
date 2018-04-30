@@ -17,5 +17,5 @@ _pushing_ the return values into the array. We'll need to attach an _event liste
 _event handler_ function that will be responsible for formatting the data and displaying it
 on the page. Within the body of the _event handler_ function we will call upon another
 function (which we will define) that will be responsible for matching the inputted text 
-and the values we received from the endpoint. How do we match the data from the endpoint with
-the user's inputs?
+and the values we received from the endpoint. 
+How do we match the data from the endpoint with the user's inputs?
