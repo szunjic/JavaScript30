@@ -20,7 +20,7 @@ exercises.
 4.  [Array Cardio Day 1](/Exercises/Day4-Array%20Cardio%20Day%201)
 5.  [Flex Panel Gallery](/Exercises/Day5-Flex%20Panel%20Gallery)
 6.  [Type Ahead](/Exercises/Day6-Type%20Ahead)
-7.  [Array Cardio, Day 2](/Exercises/Day7-Array%20Cardio%20Day%202)
+7.  [Array Cardio Day 2](/Exercises/Day7-Array%20Cardio%20Day%202)
 8.  [Fun with HTML5 Canvas](/Exercises/Day8-Fun%20with%20HTML5%20Canvas)
 9.  [Dev Tools Domination](/Exercises/Day9-Dev%20Tools%20Domination)
 10. [Hold Shift and Check Checkboxes](/Exercises/Day10-Hold%20Shift%20and%20Check%20Checkboxes)
